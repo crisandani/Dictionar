@@ -1,5 +1,24 @@
-<!DOCTYPE html>
+<?php
 
+session_start();
+if(isset($_POST['login'])){
+    require 'connect.php';
+    $user=$_POST['Email'];
+    $pass=$_POST['password'];
+    $result=$conn->query('select e_mail,password,first_name from users where e_mail="'.$user.'" and password="'.$pass.'"');
+    if(mysqli_num_rows($result))
+    {
+       $row=mysqli_fetch_row($result);
+     $_SESSION['username']=$row[2];
+	 alert("Welcome ".$_SESSION['username']);
+     echo '<script>window.location.href = "index.html";</script>';
+    }
+    else {
+        alert('Invalid account');
+        
+    }
+}
+?>
 <html>
  <head>
  <title>Log In</title>
@@ -12,7 +31,7 @@
 <body>
 <div class="Login">
 <i class="material-icons">person</i>
-<form> 
+<form method="post"> 
 	<p>E-mail</p>
 	<input type="email" name="Email">
 	<p>Parolă</p>

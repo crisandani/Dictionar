@@ -1,5 +1,28 @@
-<!DOCTYPE html>
+<?php
 
+session_start();
+if(isset($_POST['signup'])){
+    require 'connect.php';
+    $nume=$_POST['Nume'];
+    $prenume=$_POST['Prenume'];
+    $user=$_POST['Email'];
+    $pass=$_POST['password'];
+    $date=$_POST['ziNastere'];
+    if($nume==''||$prenume==''||$user==''||$pass==''||$date==''){
+        alert("completati toate campurile");
+        echo '<script>window.location.href = "signup.php";</script>';
+    }
+    $result=$conn->query("insert into users(first_name,last_name,e_mail,password,birthday) "
+            . "values('$nume','$prenume','$user','$pass','$date')");
+    if(!$result)
+		alert("query error");
+	else{
+		alert("Contul a fost inregistrat !");
+	echo '<script>window.location.href = "index.html";</script>';
+	
+	}
+}
+?>
 <html>
  <head>
  <title>SignUp</title>
@@ -13,7 +36,7 @@
 <body>
 <div class="SignUp">
 <i class="material-icons">person</i>
-<form> 
+<form method='post'> 
 	<p>Nume</p>
 	<input type="text" name="Nume">
 	<p>Prenume</p>
